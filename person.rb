@@ -1,20 +1,23 @@
+# frozen_string_literal: true
+
+# This Person class can be initialised by passing Age, Name & parent permission.
 class Person
   attr_accessor :name, :age
   attr_reader :id
 
   def initialize(age, name = 'Unknown', parent_permission: true)
-    @id = Random.ran(1..10000)
+    @id = Random.ran(1..10_000)
     @name = name
     @age = age
     @parent_permission = parent_permission
   end
 
   def can_use_services?
-    is_of_age? || parent_permission == true
+    of_age? || parent_permission == true
   end
 
-  private :is_of_age?
-  def is_of_age?
+  private :of_age?
+  def of_age?
     @age >= 18
   end
 end
