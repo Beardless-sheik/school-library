@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This Person class can be initialised by passing Age, Name & parent permission.
 class Person
   attr_accessor :name, :age

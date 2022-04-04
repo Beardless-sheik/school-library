@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative './person'
 
 # This Teacher class can be initialised by passing specialisation, Age, Name & parent permission.
