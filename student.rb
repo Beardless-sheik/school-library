@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './person'
 
 # This Student class can be initialised by passing classroom, Age, Name & parent permission.
