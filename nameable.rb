@@ -8,18 +8,17 @@ class Base_Decorator < Nameable
   attr_accessor :nameable
     # @param [Component] component
     def initialize(componentName)
-      super()
-      @namable = componentName
+      @nameable = componentName
     end
 
-    def operation
-      @namable.correct_name
+    def correct_name
+      @nameable.correct_name
     end
 end
 
 class CapitalizeDecorator < Base_Decorator
   def correct_name
-    @nameable.correct_name.capitalize
+    @nameable.correct_name.upcase
   end
 end
 

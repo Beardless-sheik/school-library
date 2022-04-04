@@ -6,7 +6,7 @@ class Person < Nameable
   attr_reader :id
 
   def initialize(age, name = 'Unknown', parent_permission: true)
-    @id = Random.ran(1..10_000)
+    @id = rand(1..10_000)
     @name = name
     @age = age
     @parent_permission = parent_permission
@@ -20,8 +20,9 @@ class Person < Nameable
     of_age? || parent_permission == true
   end
 
-  private :of_age?
+  private 
   def of_age?
     @age >= 18
   end
 end
+
