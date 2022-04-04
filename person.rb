@@ -1,5 +1,7 @@
-# This Person class can be initialised by passing Age, Name & parent permission.
-class Person
+require_relative './nameable'
+
+# This Person class is based on Nameable class & be initialised by passing Age, Name & parent permission.
+class Person < Nameable
   attr_accessor :name, :age
   attr_reader :id
 
@@ -8,6 +10,10 @@ class Person
     @name = name
     @age = age
     @parent_permission = parent_permission
+  end
+
+  def correct_name
+    @name
   end
 
   def can_use_services?
