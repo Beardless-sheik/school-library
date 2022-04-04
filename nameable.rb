@@ -22,14 +22,14 @@ class BaseDecorator < Nameable
 end
 
 # Capitalise Decorator: A decorator that implements the correct_name method in the Nameable class differently
-class CapitalizeDecorator < Base_Decorator
+class CapitalizeDecorator < BaseDecorator
   def correct_name
-    @nameable.correct_name.upcase
+    @nameable.correct_name.capitalize
   end
 end
 
 # Trimmer Decorator: A decorator that implements the correct_name method in the Nameable class differently
-class TrimmerDecorator < Base_Decorator
+class TrimmerDecorator < BaseDecorator
   def correct_name
     @nameable.correct_name.slice(0, 10)
   end
