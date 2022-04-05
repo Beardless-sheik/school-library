@@ -65,7 +65,7 @@ class App
 
   def list_all_people
     puts 'There are no people yet! Kindly add a student or teacher.' if @people.empty?
-    @people.map do |person| 
+    @people.map do |person|
       puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}, Parent Permission: #{person.parent_permission}"
     end
     sleep 0.75
@@ -94,11 +94,7 @@ class App
 
     print 'Has parent permission? [Y/N]: '
     parent_permission = gets.chomp.downcase
-    parent_permission = if parent_permission == 'y'
-      true
-    else
-      false
-    end
+    parent_permission = parent_permission == 'y'
     student = Student.new(@class, age, parent_permission, name)
     @people << student
 
