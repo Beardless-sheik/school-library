@@ -66,7 +66,8 @@ class App
   def list_all_people
     puts 'There are no people yet! Kindly add a student or teacher.' if @people.empty?
     @people.map do |person|
-      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}, Permission: #{person.parent_permission}"
+      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, 
+      Age: #{person.age}, Permission: #{person.parent_permission}"
     end
     sleep 0.75
   end
