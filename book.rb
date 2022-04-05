@@ -1,7 +1,8 @@
+require_relative './rental'
+
 # This book class shows a Book as being an object in the Library(it hasa  title & author attribue & a rentals Array)
 class Book
-  attr_accessor :title, :author
-  attr_reader :rentals
+  attr_accessor :title, :author, :rentals
 
   def initialize(title, author)
     @title = title
