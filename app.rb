@@ -4,6 +4,9 @@ require_relative 'teacher'
 require_relative 'rental'
 require_relative 'book'
 require_relative 'classroom'
+require_relative 'display'
+
+include Display
 
 class App
   def initialize
@@ -59,16 +62,14 @@ class App
   def list_all_books
     puts 'There are no books yet! Kindly add books.' if @books.empty?
 
-    @books.each { |book| puts "Title: #{book.title}, Author: #{book.author}" }
+    Display.list(@books) { |book| puts "Title: #{book.title}, Author: #{book.author}" }
     sleep 0.75
   end
 
   def list_all_people
     puts 'There are no people yet! Kindly add a student or teacher.' if @people.empty?
-    @people.map do |person|
-      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id},
-      Age: #{person.age}, Permission: #{person.parent_permission}"
-    end
+    Display.list(@people) { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id},
+    Age: #{person.age}, Permission: #{person.parent_permission}" }
     sleep 0.75
   end
 
@@ -149,7 +150,7 @@ def create_rental
   person_id = gets.chomp.to_i
 
   print 'Date: '
-  date = gets.chomp.to_s
+  date = gets.chomp
 
   rental = Rental.new(date, @people[person_id], @books[book_id])
   @rentals << rental
