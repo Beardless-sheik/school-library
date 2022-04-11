@@ -5,9 +5,16 @@ require_relative 'rental'
 require_relative 'book'
 require_relative 'classroom'
 require_relative 'display'
+require_relative 'services/library_user_creator'
+require_relative 'services/library_book_creator'
+require_relative 'services/library_rental_creator'
 
 class App
   include Display
+  include UserCreator
+  include BookCreator
+  include RentalCreator
+
   def initialize
     @people = []
     @books = []
@@ -80,55 +87,36 @@ class App
 
     case option
     when '1'
-      create_student
+      user_options = UserCreator.student_info
+      age = user_options[0]
+      name = user_options[1]
+      parent_permission = user_options[2]
+      student = Student.new(@class, age, parent_permission, name)
+      @people << student
+
+      puts 'Student created successfully'
+      sleep 0.75
+
     when '2'
-      create_teacher
+      user_options = UserCreator.teacher_info
+      specialization = user_options[0]
+      age = user_options[1]
+      name = user_options[2]
+      teacher = Teacher.new(specialization, age, name)
+      @people << teacher
+
+      puts 'Teacher created successfully'
+      sleep 0.75
     else
       puts 'Invalid input. Kindly type 1 or 2'
     end
   end
 
-  def create_student
-    print 'Age: '
-    age = gets.chomp.to_i
-
-    print 'Name: '
-    name = gets.chomp
-
-    print 'Has parent permission? [Y/N]: '
-    parent_permission = gets.chomp.downcase
-    parent_permission = parent_permission == 'y'
-    student = Student.new(@class, age, parent_permission, name)
-    @people << student
-
-    puts 'Student created successfully'
-    sleep 0.75
-  end
-
-  def create_teacher
-    print 'Age: '
-    age = gets.chomp.to_i
-
-    print 'Name: '
-    name = gets.chomp
-
-    print 'Specialization: '
-    specialization = gets.chomp
-
-    teacher = Teacher.new(specialization, age, name)
-    @people << teacher
-
-    puts 'Teacher created successfully'
-    sleep 0.75
-  end
-
   def create_book
-    print 'Title: '
-    title = gets.chomp
-
-    print 'Author: '
-    author = gets.chomp
-
+    user_options = BookCreator.book_info
+    title = user_options[0]
+    author = user_options[1]
+    puts "debugging app.rb line 114: title is '#{title}' & author is '#{author}'"
     book = Book.new(title, author)
     @books << book
 
@@ -138,21 +126,10 @@ class App
 end
 
 def create_rental
-  puts 'Select a book from the following list by number'
-  @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
-
-  book_id = gets.chomp.to_i
-
-  puts 'Select a person from the following list by number (not id)'
-  @people.each_with_index do |person, index|
-    puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-  end
-
-  person_id = gets.chomp.to_i
-
-  print 'Date: '
-  date = gets.chomp
-
+  user_options = RentalCreator.rental_info(@books, @people)
+  book_id = user_options[0]
+  person_id = user_options[1]
+  date = user_options[2]
   rental = Rental.new(date, @people[person_id], @books[book_id])
   @rentals << rental
 
@@ -166,10 +143,7 @@ def list_rentals_by_person_id
 
   puts 'Rentals:'
   Display.list(@rentals) do |rental|
-    puts "Date: #{rental.date}, Book   '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
+    puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
   end
-  # @rentals.each do |rental|
-  #   puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
-  # end
   sleep 0.75
 end
