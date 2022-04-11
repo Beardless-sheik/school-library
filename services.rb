@@ -1,5 +1,5 @@
 class Services
-    def can_use_services?(person)
+  def can_use_services?(person)
     of_age?(person) || person.parent_permission == true
   end
 

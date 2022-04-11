@@ -68,8 +68,10 @@ class App
 
   def list_all_people
     puts 'There are no people yet! Kindly add a student or teacher.' if @people.empty?
-    Display.list(@people) { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id},
-    Age: #{person.age}, Permission: #{person.parent_permission}" }
+    Display.list(@people) do |person|
+      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id},
+      Age: #{person.age}, Permission: #{person.parent_permission}"
+    end
     sleep 0.75
   end
 
@@ -164,8 +166,9 @@ def list_rentals_by_person_id
   id = gets.chomp.to_i
 
   puts 'Rentals:'
-  Display.list(@rentals) { |rental|
-    puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id }
+  Display.list(@rentals) do |rental|
+    puts "Date: #{rental.date}, Book   '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
+  end
   # @rentals.each do |rental|
   #   puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
   # end
