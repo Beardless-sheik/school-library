@@ -1,7 +1,5 @@
 module Display
-  def list(list_array)
-    list_array.each do |pipe|
-      yield pipe
-    end
+  def self.list(list_array, &block)
+    list_array.each(&block)
   end
 end

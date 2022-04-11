@@ -6,9 +6,8 @@ require_relative 'book'
 require_relative 'classroom'
 require_relative 'display'
 
-include Display
-
 class App
+  include Display
   def initialize
     @people = []
     @books = []
