@@ -28,7 +28,20 @@ class DataManager
   def save_rentals(rentals)
     file = File.open('./rentals.json', 'w')
     rental_data = rentals.map do |rental|
-      { date: rental.date, book: { title: rental.book.title, author: rental.book.author }, personId: rental.person.id }
+      {
+        date: rental.date,
+        book: {
+          title: rental.book.title,
+          author: rental.book.author
+        },
+        person: {
+          class: rental.person.class,
+          id: rental.person.id,
+          name: rental.person.name,
+          age: rental.person.age,
+          specialization: (rental.person.specialization if rental.person.class.to_s == 'Teacher')
+        }.compact
+      }
     end
     file.puts(JSON.generate(rental_data))
     file.close
@@ -71,11 +84,24 @@ class DataManager
   def load_rentals
     file = File.read('./rentals.json')
     array = []
+
     if file.empty?
       array
     else
       parsed_data = JSON.parse(file)
       parsed_data.map do |data|
+        case data['person']['class']
+        when 'Student'
+          student = Student.new('English', data['person']['age'], data['person']['permission'], data['person']['name'],
+                                data['person']['id'])
+
+        when 'Teacher'
+          teacher = Teacher.new(data['person']['specialization'], data['person']['age'], data['person']['name'],
+                                data['person']['id'])
+
+        end
+        book = Book.new(data['book']['title'], data['book']['author'])
+        array.push(Rental.new(data['date'], data['person']['class'] == 'Student' ? student : teacher, book))
       end
     end
     array
