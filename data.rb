@@ -15,19 +15,25 @@ class DataManager
 
   def save_people(people)
     file = File.open('./people.json', 'w') 
-    people_array = people.map do |person|
-      { name: person.name, age: person.age, id: person.id }
+    people_data = people.map do |person|
+      if person.class.to_s == 'Student'
+        { class:person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission }
+      else
+        { class:person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission, 
+          specialization: person.specialization }
+      end
     end
-    file.puts(JSON.generate(people_array))
+    
+    file.puts(JSON.generate(people_data))
     file.close
   end
 
   def save_rentals(rentals)
     file = File.open('./rentals.json', 'w')
-    rentals_array = rentals.map do |rental|
-      {date: rental.date, book: { Title: rental.book.title, Author: rental.book.author } , personId: rental.person.id }
+    rental_data = rentals.map do |rental|
+      {date: rental.date, book: { title: rental.book.title, author: rental.book.author } , personId: rental.person.id }
     end
-    file.puts(JSON.generate(rentals_array))
+    file.puts(JSON.generate(rental_data))
     file.close
   end
 end
