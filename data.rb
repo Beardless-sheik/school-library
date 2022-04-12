@@ -1,37 +1,27 @@
 require 'json'
-require_relative './person'
-require_relative './student'
+require_relative './book'
 
 class Data
   def save_books(books)
-    if File.empty?('./books.json')
-      File.write("./books.json", JSON.generate(books), mode: "a")
-    else
-      file = File.open('./books.json')
-      file_data = JSON.parse(file.read)
-      books.each do |book|
-        file_data.push({"data"=>["#{book.title}", "#{book.author}"]})
-      end
-      File.write('./books.json', JSON.generate(file_data), mode: "w")
-      file.close
+    file = File.open('./books.json', 'w')
+    book_store = books.map do |book|
+      { title: book.title, author: book.author }
     end
+    file.puts(JSON.generate(book_store))
+    file.close
   end
 
   def save_persons(persons)
-    start = Time.now
     if File.empty?('./persons.json')
-      File.write("./persons.json", JSON.generate(persons), mode: "a")
+      File.write('./persons.json', JSON.generate(persons), mode: 'a')
     else
       file = File.open('./persons.json')
       file_data = JSON.parse(file.read)
       persons.each do |person|
-        file_data.push({"data"=>["#{person.name}", "#{person.age}", "#{person.id}"]})
+        file_data.push({ 'data' => [person.name.to_s, person.age.to_s, person.id.to_s] })
       end
-      File.write('./persons.json', JSON.generate(file_data), mode: "w")
+      File.write('./persons.json', JSON.generate(file_data), mode: 'w')
       file.close
     end
-    finish = Time.now
-    diff = finish - start
-    p diff
   end
 end

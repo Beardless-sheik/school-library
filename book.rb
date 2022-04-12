@@ -13,13 +13,4 @@ class Book
   def add_rentals(person, date)
     Rental.new(date, person, self)
   end
-
-  def to_json(*args)
-    {
-      'data'             => [ title, author ]
-    }.to_json(*args)
-  end
-  def self.json_create(object)
-    new(*object['data'])
-  end
 end
