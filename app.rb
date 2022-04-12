@@ -19,9 +19,9 @@ class App < Console
 
   def initialize
     super()
-    @data_manager = DataManager.new 
+    @data_manager = DataManager.new
     @people = []
-    @books = []
+    @books = @data_manager.load_books
     @rentals = []
     @class = Classroom.new('Form 6 Class')
   end
@@ -99,7 +99,7 @@ class App < Console
     Display.list(@rentals) do |rental|
       puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
     end
-  sleep 0.75
+    sleep 0.75
   end
 
   def preserve_user_data
