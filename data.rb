@@ -14,16 +14,12 @@ class DataManager
   end
 
   def save_people(people)
-    file = File.open('./people.json', 'w') 
+    file = File.open('./people.json', 'w')
     people_data = people.map do |person|
-      if person.class.to_s == 'Student'
-        { class:person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission }
-      else
-        { class:person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission, 
-          specialization: person.specialization }
-      end
+        { class:person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission,
+        specialization: (person.specialization if person.class.to_s == 'Teacher') }.compact
     end
-    
+
     file.puts(JSON.generate(people_data))
     file.close
   end
