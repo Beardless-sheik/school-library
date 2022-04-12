@@ -1,6 +1,7 @@
 require 'json'
 require_relative './book'
 require_relative './person'
+require_relative './rental'
 
 class DataManager
   def save_books(books)
@@ -18,6 +19,15 @@ class DataManager
       { name: person.name, age: person.age, id: person.id }
     end
     file.puts(JSON.generate(people_array))
+    file.close
+  end
+
+  def save_rentals(rentals)
+    file = File.open('./rentals.json', 'w')
+    rentals_array = rentals.map do |rental|
+      {date: rental.date, book: { Title: rental.book.title, Author: rental.book.author } , personId: rental.person.id }
+    end
+    file.puts(JSON.generate(rentals_array))
     file.close
   end
 end
