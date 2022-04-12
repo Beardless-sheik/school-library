@@ -4,8 +4,8 @@ require_relative './person'
 class Student < Person
   attr_reader :classroom
 
-  def initialize(classroom, age, parent_permission, name = 'Unknown')
-    super(age, parent_permission, name)
+  def initialize(classroom, age, parent_permission, name = 'Unknown', id = rand(1..10_000))
+    super(age, parent_permission, name, id)
     @classroom = classroom
   end
 

@@ -20,7 +20,7 @@ class App < Console
   def initialize
     super()
     @data_manager = DataManager.new
-    @people = []
+    @people = @data_manager.load_people
     @books = @data_manager.load_books
     @rentals = []
     @class = Classroom.new('Form 6 Class')

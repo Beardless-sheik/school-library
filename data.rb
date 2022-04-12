@@ -1,5 +1,8 @@
 require 'json'
 require_relative './book'
+require_relative './student'
+require_relative './teacher'
+require_relative './rental'
 
 class DataManager
   def save_books(books)
@@ -40,6 +43,26 @@ class DataManager
       parsed_data = JSON.parse(file)
       parsed_data.map do |data|
         array.push(Book.new(data['title'], data['author']))
+      end
+    end
+    array
+  end
+
+  def load_people
+    file = File.read('./people.json')
+    array = []
+    if file.empty?
+      array
+    else
+      parsed_data = JSON.parse(file)
+      parsed_data.map do |data|
+        case data['class']
+        when 'Student'
+          array.push(Student.new('English', data['age'], data['permission'], data['name'], data['id']))
+
+        when 'Teacher'
+          array.push(Teacher.new(data['specialization'], data['age'], data['name'], data['id']))
+        end
       end
     end
     array
