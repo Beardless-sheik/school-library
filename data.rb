@@ -67,4 +67,21 @@ class DataManager
     end
     array
   end
+
+  def load_rentals
+    file = File.read('./rentals.json')
+    array = []
+    if file.empty?
+      array
+    else
+      parsed_data = JSON.parse(file)
+      parsed_data.map do |data|
+      end
+    end
+    array
+  end
 end
+
+# We were trying to find a way to create a person in the load_rentals
+# first idea: Add hash keys to save_rentals and use it on load_rentals
+# second idea: use the @people instance variable from app class

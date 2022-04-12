@@ -22,7 +22,7 @@ class App < Console
     @data_manager = DataManager.new
     @people = @data_manager.load_people
     @books = @data_manager.load_books
-    @rentals = []
+    @rentals = @data_manager.load_rentals
     @class = Classroom.new('Form 6 Class')
   end
 
