@@ -8,16 +8,16 @@ require_relative 'display'
 require_relative 'services/library_user_creator'
 require_relative 'services/library_book_creator'
 require_relative 'services/library_rental_creator'
-require_relative './console.rb'
+require_relative 'console'
 
 class App < Console
-  super()
   include Display
   include UserCreator
   include BookCreator
   include RentalCreator
 
   def initialize
+    super()
     @people = []
     @books = []
     @rentals = []
@@ -47,10 +47,7 @@ class App < Console
     case option
     when '1'
       user_options = UserCreator.student_info
-      age = user_options[0]
-      name = user_options[1]
-      parent_permission = user_options[2]
-      student = Student.new(@class, age, parent_permission, name)
+      student = Student.new(@class, user_options[0], user_options[2], user_options[1])
       @people << student
 
       puts 'Student created successfully'
@@ -58,10 +55,7 @@ class App < Console
 
     when '2'
       user_options = UserCreator.teacher_info
-      specialization = user_options[0]
-      age = user_options[1]
-      name = user_options[2]
-      teacher = Teacher.new(specialization, age, name)
+      teacher = Teacher.new(user_options[0], user_options[1], user_options[2])
       @people << teacher
 
       puts 'Teacher created successfully'
