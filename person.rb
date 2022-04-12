@@ -17,14 +17,4 @@ class Person < Nameable
   def correct_name
     @name
   end
-
-  def to_json(*args)
-    {
-      'data' => [name, age, id]
-    }.to_json(*args)
-  end
-
-  def self.json_create(object)
-    new(*object['data'])
-  end
 end
