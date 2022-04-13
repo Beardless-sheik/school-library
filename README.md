@@ -17,7 +17,13 @@ To get a local copy up and running follow these simple example steps.
 
 - Open terminal in cloned repo directory
 
+- To run tests you need to install Rspec by running 
+    >"gem install rspec"
 
+  After installation run 
+    >"rspec tests/" 
+    
+  to initiate the test suite 
 ## Built With
 
 - Ruby
