@@ -8,6 +8,7 @@ class Console
 
       get_num(option)
     end
+    preserve_user_data
     puts 'Thank you for using our Library!'
   end
 

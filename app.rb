@@ -9,6 +9,7 @@ require_relative 'services/library_user_creator'
 require_relative 'services/library_book_creator'
 require_relative 'services/library_rental_creator'
 require_relative 'console'
+require_relative 'data'
 
 class App < Console
   include Display
@@ -18,9 +19,10 @@ class App < Console
 
   def initialize
     super()
-    @people = []
-    @books = []
-    @rentals = []
+    @data_manager = DataManager.new
+    @people = @data_manager.load_people
+    @books = @data_manager.load_books
+    @rentals = @data_manager.load_rentals
     @class = Classroom.new('Form 6 Class')
   end
 
@@ -76,27 +78,33 @@ class App < Console
     puts 'Book added successfully'
     sleep 0.75
   end
-end
 
-def create_rental
-  user_options = RentalCreator.rental_info(@books, @people)
-  book_id = user_options[0]
-  person_id = user_options[1]
-  date = user_options[2]
-  rental = Rental.new(date, @people[person_id], @books[book_id])
-  @rentals << rental
+  def create_rental
+    user_options = RentalCreator.rental_info(@books, @people)
+    book_id = user_options[0]
+    person_id = user_options[1]
+    date = user_options[2]
+    rental = Rental.new(date, @people[person_id], @books[book_id])
+    @rentals << rental
 
-  puts 'Rental created successfully'
-  sleep 0.75
-end
-
-def list_rentals_by_person_id
-  print 'ID of person: '
-  id = gets.chomp.to_i
-
-  puts 'Rentals:'
-  Display.list(@rentals) do |rental|
-    puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
+    puts 'Rental created successfully'
+    sleep 0.75
   end
-  sleep 0.75
+
+  def list_rentals_by_person_id
+    print 'ID of person: '
+    id = gets.chomp.to_i
+
+    puts 'Rentals:'
+    Display.list(@rentals) do |rental|
+      puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
+    end
+    sleep 0.75
+  end
+
+  def preserve_user_data
+    @data_manager.save_books(@books)
+    @data_manager.save_people(@people)
+    @data_manager.save_rentals(@rentals)
+  end
 end
