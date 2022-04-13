@@ -61,3 +61,25 @@ describe CapitalizeDecorator do
     end
   end
 end
+
+describe TrimmerDecorator do
+  context 'When testing the TrimmerDecorator class' do
+    before :each do
+      person = double('Person', age: 20, parent_permission: true, name: 'alick welloy nyirenda', rentals: [])
+      allow(person).to receive(:correct_name) { person.name }
+      @trimmer_decorator = TrimmerDecorator.new(person)
+    end
+
+    it 'should create an instance object of this class' do
+      trimmer_decorator_class = @trimmer_decorator.class
+
+      expect(trimmer_decorator_class).to be TrimmerDecorator
+    end
+
+    it 'should trim the string to 10 characters when calling correct_name method' do
+      trimmer_decorator_name = @trimmer_decorator.correct_name
+
+      expect(trimmer_decorator_name).to eq 'alick well'
+    end
+  end
+end
