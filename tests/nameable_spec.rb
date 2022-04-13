@@ -32,10 +32,32 @@ describe BaseDecorator do
       expect(base_decorator_class).to be BaseDecorator
     end
 
-    it 'should return person name when calling correct_name' do
+    it 'should return person name when calling correct_name method' do
       base_decorator_name = @base_decorator.correct_name
 
       expect(base_decorator_name).to eq 'Alick'
+    end
+  end
+end
+
+describe CapitalizeDecorator do
+  context 'When testing the CapitalizeDecorator class' do
+    before :each do
+      person = double('Person', age: 20, parent_permission: true, name: 'alick', rentals: [])
+      allow(person).to receive(:correct_name) { person.name }
+      @capitalize_decorator = CapitalizeDecorator.new(person)
+    end
+
+    it 'should create an instance object of this class' do
+      capitalize_decorator_class = @capitalize_decorator.class
+
+      expect(capitalize_decorator_class).to be CapitalizeDecorator
+    end
+
+    it 'should capitalize the string when calling correct_name method' do
+      capitalize_decorator_name = @capitalize_decorator.correct_name
+
+      expect(capitalize_decorator_name).to eq 'Alick'
     end
   end
 end
