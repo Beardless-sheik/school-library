@@ -17,3 +17,25 @@ describe Nameable do
     end
   end
 end
+
+describe BaseDecorator do
+  context 'When testing the BaseDecorator class' do
+    before :each do
+      person = double('Person', age: 20, parent_permission: true, name: 'Alick', rentals: [])
+      allow(person).to receive(:correct_name) { person.name }
+      @base_decorator = BaseDecorator.new(person)
+    end
+
+    it 'should create an instance object of this class' do
+      base_decorator_class = @base_decorator.class
+
+      expect(base_decorator_class).to be BaseDecorator
+    end
+
+    it 'should return person name when calling correct_name' do
+      base_decorator_name = @base_decorator.correct_name
+
+      expect(base_decorator_name).to eq 'Alick'
+    end
+  end
+end
