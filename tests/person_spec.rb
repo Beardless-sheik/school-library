@@ -9,11 +9,13 @@ describe "Person Class" do
    context "With valid input to #new" do 
       it "instance created should be a person object that has a class of Person" do
          instanse_class = @person.class 
+         
          expect(instanse_class).to be Person 
       end 
 		
       it "instance created should have a title isntance property age what is given" do 
          instanse_property = @person.age
+
          expect(instanse_property).to eq 20
       end 
    end 
@@ -21,6 +23,7 @@ describe "Person Class" do
    context "with valid input #correct_name" do
      it "should return the names property as given when creating object" do
         instanse_property = @person.correct_name
+        
         expect(instanse_property).to eq "Alick"
      end
    end
