@@ -6,6 +6,8 @@ require_relative './rental'
 
 class DataManager
   def save_books(books)
+    return unless File.exist?('./books.json')
+
     file = File.open('./books.json', 'w')
     book_store = books.map do |book|
       { title: book.title, author: book.author }
@@ -15,6 +17,8 @@ class DataManager
   end
 
   def save_people(people)
+    return unless File.exist?('./people.json')
+
     file = File.open('./people.json', 'w')
     people_data = people.map do |person|
       { class: person.class, name: person.name, id: person.id, age: person.age, permission: person.parent_permission,
@@ -26,6 +30,8 @@ class DataManager
   end
 
   def save_rentals(rentals)
+    return unless File.exist?('./rentals.json')
+
     file = File.open('./rentals.json', 'w')
     rental_data = rentals.map do |rental|
       {
@@ -48,6 +54,8 @@ class DataManager
   end
 
   def load_books
+    return [] unless File.exist?('./books.json')
+
     file = File.read('./books.json')
     array = []
     if file.empty?
@@ -62,6 +70,8 @@ class DataManager
   end
 
   def load_people
+    return [] unless File.exist?('./people.json')
+
     file = File.read('./people.json')
     array = []
     if file.empty?
@@ -82,14 +92,15 @@ class DataManager
   end
 
   def load_rentals
+    return [] unless File.exist?('./rentals.json')
+
     file = File.read('./rentals.json')
     array = []
 
     if file.empty?
-      array
+      array = []
     else
-      parsed_data = JSON.parse(file)
-      parsed_data.map do |data|
+      JSON.parse(file).map do |data|
         case data['person']['class']
         when 'Student'
           student = Student.new('English', data['person']['age'], data['person']['permission'], data['person']['name'],
@@ -107,7 +118,3 @@ class DataManager
     array
   end
 end
-
-# We were trying to find a way to create a person in the load_rentals
-# first idea: Add hash keys to save_rentals and use it on load_rentals
-# second idea: use the @people instance variable from app class
